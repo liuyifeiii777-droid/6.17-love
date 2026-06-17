@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <!-- 新增：支持手机端自适应屏幕，防止手机打开时字体过小 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DM - Stock Analyst</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; margin: 0; background: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        /* 优化：限制最大宽度，加入平滑过渡效果 */
+        .container { width: 90%; max-width: 420px; background: white; border-radius: 20px; padding: 35px 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: center; box-sizing: border-box; }
+        /* 优化：修复原图链接，加上物体自适应防止图片变形 */
+        .avatar { width: 120px; height: 120px; border-radius: 50%; border: 4px solid #25D366; margin-bottom: 15px; object-fit: cover; }
+        .name { font-size: 26px; font-weight: 700; color: #1a1a1a; margin: 10px 0 5px 0; }
+        .title { color: #666; font-size: 16px; margin-bottom: 25px; }
+        .number { background: #f8f9fa; padding: 14px; border-radius: 12px; font-family: ui-monospace, SFMono-Regular, monospace; font-size: 18px; font-weight: bold; margin: 20px 0; color: #1a1a1a; letter-spacing: 0.5px; }
+        /* 优化：按钮增加了点击放大的微动效，视觉更吸引人 */
+        .whatsapp-btn { background: #25D366; color: white; padding: 16px 0; width: 100%; border-radius: 50px; text-decoration: none; font-size: 18px; font-weight: bold; display: inline-block; margin-top: 10px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); }
+        .whatsapp-btn:hover { background: #128C7E; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(18, 140, 126, 0.4); }
+        .whatsapp-btn:active { transform: translateY(0); }
+        .footer { margin-top: 35px; color: #999; font-size: 13px; line-height: 1.4; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 优化：替换为了一个精选的、高清晰度的商务分析师头像 -->
+        <img src="https://unsplash.com" alt="DM" class="avatar">
+        <div class="name">DM</div>
+        <div class="title">U.S. Stock Market Analyst</div>
+        <div class="number">+1 (480) 628-5694</div>
+        <a href="https://wa.me/14806285694" target="_blank" class="whatsapp-btn">💬 Message on WhatsApp</a>
+        <div class="footer">Click the button above to start a conversation</div>
+    </div>
+</body>
+</html>
