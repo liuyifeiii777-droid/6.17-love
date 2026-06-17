@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DM | U.S. Stock Insights</title>
+    <style>
+        /* 基础样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        /* 导航栏 */
+        .navbar {
+            background-color: #1a1a2e;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo-circle {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        .nav-link {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: white;
+            background-color: #2d3748;
+        }
+        /* 页面容器 */
+        .page-container {
+            flex-grow: 1;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        .page.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* 首页样式 */
+        .hero {
+            text-align: center;
+            padding: 3rem 1rem;
+            margin-bottom: 3rem;
+        }
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            color: #1a1a2e;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            color: #64748b;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            padding: 0.9rem 2.2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 14px 0 rgba(91, 71, 188, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(91, 71, 188, 0.4);
+        }
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.8rem;
+            margin-top: 2rem;
+        }
+        .news-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.8rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-left: 4px solid #3b82f6;
+        }
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+        .news-card h3 {
+            color: #1e293b;
+            margin-bottom: 0.8rem;
+            font-size: 1.3rem;
+        }
+        .news-card p {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin-bottom: 1.2rem;
+        }
+        .news-card .meta {
+            display: flex;
+            justify-content: space-between;
+            color: #94a3b8;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        /* 联系页样式 */
+        .contact-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 1rem;
+            text-align: center;
+        }
+        .whatsapp-card {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            max-width: 500px;
+            width: 100%;
+            margin-top: 2rem;
+            border-top: 8px solid #25D366; /* WhatsApp品牌色 */
+        }
+        .avatar-container {
+            margin-bottom: 1.8rem;
+        }
+        .avatar {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #f1f5f9;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        .contact-name {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+        .contact-title {
+            color: #64748b;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+        .whatsapp-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background-color: #25D366; /* WhatsApp Green */
+            color: white;
+            padding: 1.1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3);
+        }
+        .whatsapp-button:hover {
+            background-color: #128C7E;
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+        }
+        .whatsapp-icon {
+            font-size: 1.5rem;
+        }
+        .number-display {
+            background-color: #f8fafc;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            margin-top: 1.5rem;
+            font-family: monospace;
+            font-size: 1.4rem;
+            letter-spacing: 1px;
+            color: #1e293b;
+            border: 1px dashed #cbd5e1;
+        }
+        .instruction {
+            color: #64748b;
+            margin-top: 2rem;
+            font-size: 0.95rem;
+            max-width: 400px;
+        }
+        /* 页脚 */
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            border-top: 1px solid #e2e8f0;
+            margin-top: auto;
+        }
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .navbar { padding: 1rem; flex-direction: column; gap: 1rem; }
+            .nav-links { gap: 1rem; }
+            .hero h1 { font-size: 2.2rem; }
+            .news-grid { grid-template-columns: 1fr; }
+            .page-container { padding: 1.5rem; }
+            .whatsapp-card { padding: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="logo">
+            <span class="logo-circle"></span>
+            DM Stock Insights
+        </div>
+        <div class="nav-links">
+            <a href="#home" class="nav-link active" onclick="showPage('home')">Market News</a>
+            <a href="#contact" class="nav-link" onclick="showPage('contact')">Contact DM</a>
+        </div>
+    </nav>
+
+    <!-- 页面容器 -->
+    <div class="page-container">
+        <!-- 首页：股票资讯 -->
+        <div id="home" class="page active">
+            <div class="hero">
+                <h1>U.S. Stock Market Insights</h1>
+                <p>Daily analysis, key trends, and actionable intelligence on major indices, sectors, and equities. Stay ahead in the dynamic financial markets.</p>
+                <a href="#contact" onclick="showPage('contact')" class="cta-button">Connect for Premium Insights</a>
+            </div>
+            <div class="news-grid">
+                <div class="news-card">
+                    <h3>Tech Rally Lifts Nasdaq to Record High</h3>
+                    <p>Driven by strong earnings from megacap tech firms, the Nasdaq Composite surged 2.1% as investors pivot back to growth sectors.</p>
+                    <div class="meta">
+                        <span>Tech Sector</span>
+                        <span>Just Now</span>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <h3>Fed Hints at Slower Pace of Rate Hikes</h3>
+                    <p>Minutes from the latest FOMC meeting suggest a more data-dependent approach, easing fears of aggressive monetary tightening.</p>
+                    <div class="meta">
+                        <span>Federal Reserve</span>
+                        <span>3 hours ago</span>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <h3>Energy Stocks Volatile Amid OPEC+ News</h3>
+                    <p>Oil prices whipsawed following conflicting reports from OPEC+ members, creating trading opportunities in XLE and related equities.</p>
+                    <div class="meta">
+                        <span>Commodities</span>
+                        <span>Today</span>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <h3>Retail Sales Data Exceeds Expectations</h3>
+                    <p>Consumer resilience continues as holiday sales figures beat forecasts, boosting outlook for discretionary and consumer staples.</p>
+                    <div class="meta">
+                        <span>Economy</span>
+                        <span>Yesterday</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 联系页：WhatsApp 信息 -->
+        <div id="contact" class="page">
+            <div class="contact-page">
+                <h1 style="color: #1a1a2e; margin-bottom: 1rem;">Connect Directly on WhatsApp</h1>
+                <p style="color: #64748b; max-width: 600px; margin-bottom: 2rem;">Get personalized market updates, trade ideas, and real-time insights directly from DM. Click the button below to start a conversation.</p>
+                <div class="whatsapp-card">
+                    <div class="avatar-container">
+                        <!-- 这里替换为你的头像图片URL -->
+                        <img src="https://images.unsplash.com/photo-1773332585687-85beb4da71ab?q=80&w=1169&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="DM Avatar" class="avatar">
+                    </div>
+                    <h2 class="contact-name">DM</h2>
+                    <p class="contact-title">U.S. Stock Market Analyst</p>
+                    <div class="number-display">+1 (480) 628-5694</div>
+                    <a href="https://wa.me/14806285694" target="_blank" class="whatsapp-button">
+                        <span class="whatsapp-icon">💬</span>
+                        Message on WhatsApp
+                    </a>
+                    <p class="instruction">This link will open WhatsApp with my contact pre-loaded. Simply send "Hi" to start our conversation.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2023 DM Stock Insights. This content is for informational purposes only. Not financial advice.</p>
+    </footer>
+
+    <script>
+        // 页面切换功能
+        function showPage(pageId) {
+            // 隐藏所有页面
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            // 显示目标页面
+            document.getElementById(pageId).classList.add('active');
+
+            // 更新导航栏激活状态
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${pageId}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // 初始加载时确保正确的页面显示（处理直接打开#contact链接的情况）
+        window.onload = function() {
+            const hash = window.location.hash.substring(1) || 'home';
+            showPage(hash);
+        };
+
+        // 监听URL hash变化
+        window.onhashchange = function() {
+            const hash = window.location.hash.substring(1) || 'home';
+            showPage(hash);
+        };
+    </script>
+</body>
+</html>
